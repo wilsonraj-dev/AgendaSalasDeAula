@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Reserva.Application\Reserva.Application.csproj" />
+    <ProjectReference Include="..\Reserva.Domain\Reserva.Domain.csproj" />
+    <ProjectReference Include="..\Reserva.Infra.Data\Reserva.Infra.Data.csproj" />
+  </ItemGroup>
+
 </Project>

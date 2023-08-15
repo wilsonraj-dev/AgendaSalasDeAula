@@ -14,4 +14,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Reserva.Infra.IoC\Reserva.Infra.IoC.csproj" />
+  </ItemGroup>
+
 </Project>
