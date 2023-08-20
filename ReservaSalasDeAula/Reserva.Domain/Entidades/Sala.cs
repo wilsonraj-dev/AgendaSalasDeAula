@@ -7,7 +7,7 @@ namespace Reserva.Domain.Entidades
     {
         public string NomeSala { get; set; } = string.Empty;
         public TipoSala TipoSala { get; set; }
-        public ICollection<Agenda>? Agendas { get; set; }
+        public Agenda? Agenda { get; set; }
 
         public Sala(string nomeSala, TipoSala tipoSala)
         {
