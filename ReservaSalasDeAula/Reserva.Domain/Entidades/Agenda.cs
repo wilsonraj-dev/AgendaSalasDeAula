@@ -2,7 +2,7 @@
 
 namespace Reserva.Domain.Entidades
 {
-    public sealed class Agenda : Entity
+    public class Agenda : Entity
     {
         public DateTime DataAgenda { get; set; }
         public string Descricao { get; set; } = string.Empty;
@@ -10,7 +10,7 @@ namespace Reserva.Domain.Entidades
         public int QtdeHorarios { get; set; }
         public bool Disponivel { get; set; } = true;
         public int SalaId { get; set; }
-        public Sala? Sala { get; set; }
+        public virtual Sala? Sala { get; set; }
 
         public Agenda(DateTime dataAgenda, string descricao, string professorResponsavel, int qtdeHorarios, bool disponivel, int salaId)
         {

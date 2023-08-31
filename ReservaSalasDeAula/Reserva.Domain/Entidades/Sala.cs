@@ -3,7 +3,7 @@ using static Reserva.Domain.Entidades.Enumeradores;
 
 namespace Reserva.Domain.Entidades
 {
-    public sealed class Sala : Entity
+    public class Sala : Entity
     {
         public string NomeSala { get; set; } = string.Empty;
         public TipoSala TipoSala { get; set; }
