@@ -57,7 +57,7 @@ namespace Reserva.Infra.Data.Migrations
                     b.HasIndex("SalaId")
                         .IsUnique();
 
-                    b.ToTable("Agendas");
+                    b.ToTable("Agendas", (string)null);
                 });
 
             modelBuilder.Entity("Reserva.Domain.Entidades.Sala", b =>
@@ -78,7 +78,7 @@ namespace Reserva.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Salas");
+                    b.ToTable("Salas", (string)null);
                 });
 
             modelBuilder.Entity("Reserva.Domain.Entidades.Agenda", b =>
