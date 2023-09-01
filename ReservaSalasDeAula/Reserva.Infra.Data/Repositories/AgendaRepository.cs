@@ -29,6 +29,11 @@ namespace Reserva.Infra.Data.Repositories
             return await _context.Agendas.Where(x => x.ProfessorResponsavel.Contains(professor)).ToListAsync();
         }
 
+        public async Task<Agenda> GetAgendaPorIdAsync(int id)
+        {
+            return await _context.Agendas.FindAsync(id) ?? throw new ArgumentException();
+        }
+
         public async Task<Agenda> CreateAsync(Agenda agenda)
         {
             _context.Add(agenda);
