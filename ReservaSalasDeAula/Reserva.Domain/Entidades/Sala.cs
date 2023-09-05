@@ -16,7 +16,7 @@ namespace Reserva.Domain.Entidades
 
         public Sala(int id, string nomeSala, TipoSala tipoSala)
         {
-            DomainExceptionValidation.When(id <= 0, "Id inválido");
+            DomainExceptionValidation.When(id < 0, "Id inválido");
             Id = id;
 
             ValidateDomain(nomeSala, tipoSala);

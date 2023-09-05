@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Reserva.Application.Interfaces;
 using Reserva.Application.Mappings;
+using Reserva.Application.Services;
 using Reserva.Domain.Interfaces;
 using Reserva.Infra.Data.Context;
 using Reserva.Infra.Data.Repositories;
@@ -16,7 +18,9 @@ namespace Reserva.Infra.IoC
                                                                     x => x.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
             services.AddScoped<IAgendaRepository, AgendaRepository>();
+            
             services.AddScoped<ISalaRepository, SalaRepository>();
+            services.AddScoped<ISalaService, SalaService>();
 
             services.AddAutoMapper(typeof(DomainToDTOProfile));
 
