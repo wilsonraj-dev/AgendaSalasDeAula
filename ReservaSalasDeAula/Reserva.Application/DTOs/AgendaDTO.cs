@@ -6,9 +6,11 @@ namespace Reserva.Application.DTOs
 {
     public class AgendaDTO
     {
+        public int Id { get; set; }
+
         [Required]
-        [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
+        //[DataType(DataType.Text)]
+        //[DisplayFormat(DataFormatString = "{0: dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime DataAgenda { get; set; }
 
         [Required]
@@ -24,9 +26,6 @@ namespace Reserva.Application.DTOs
         [Required]
         [Range(1, 5)]
         public int QtdeHorarios { get; set; }
-
-        [Required]
-        public bool Disponivel { get; set; } = true;
 
         [JsonIgnore]
         public Sala? Sala;

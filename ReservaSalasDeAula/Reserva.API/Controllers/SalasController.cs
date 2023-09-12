@@ -6,11 +6,11 @@ namespace Reserva.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class SalaController : ControllerBase
+    public class SalasController : ControllerBase
     {
         private readonly ISalaService _service;
 
-        public SalaController(ISalaService service)
+        public SalasController(ISalaService service)
         {
             _service = service;
         }
@@ -46,11 +46,12 @@ namespace Reserva.API.Controllers
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<SalaDTO>> UpdateAsync(int id, [FromBody] SalaDTO sala)
         {
             if (sala == null)
             {
-                return BadRequest();
+                return NotFound();
             }
             else if (sala.Id != id)
             {
@@ -63,7 +64,7 @@ namespace Reserva.API.Controllers
 
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<SalaDTO>> RemoveAsync(int id)
         {
             var result = await _service.GetSalaByIdAsync(id);

@@ -18,7 +18,7 @@ namespace Reserva.Infra.IoC
                                                                     x => x.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
             services.AddScoped<IAgendaRepository, AgendaRepository>();
-            
+            services.AddScoped<IAgendaService, AgendaService>();
             services.AddScoped<ISalaRepository, SalaRepository>();
             services.AddScoped<ISalaService, SalaService>();
 

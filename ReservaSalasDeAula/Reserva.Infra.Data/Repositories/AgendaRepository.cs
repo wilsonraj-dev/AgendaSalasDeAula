@@ -21,7 +21,7 @@ namespace Reserva.Infra.Data.Repositories
 
         public async Task<IEnumerable<Agenda>> GetAgendasPorDataAsync(DateTime dataAgenda)
         {
-            return await _context.Agendas.TemporalBetween(dataAgenda, DateTime.UtcNow).ToListAsync();
+            return await _context.Agendas.TemporalBetween(dataAgenda, DateTime.Now).ToListAsync();
         }
 
         public async Task<IEnumerable<Agenda>> GetAgendasPorProfessorAsync(string professor)

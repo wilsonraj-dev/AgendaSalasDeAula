@@ -1,4 +1,5 @@
 ﻿using Reserva.Application.DTOs;
+using Reserva.Domain.Entidades;
 
 namespace Reserva.Application.Interfaces
 {
@@ -7,6 +8,7 @@ namespace Reserva.Application.Interfaces
         Task<IEnumerable<AgendaDTO>> GetAgendasAsync();
         Task<IEnumerable<AgendaDTO>> GetAgendasPorDataAsync(DateTime dataAgenda);
         Task<IEnumerable<AgendaDTO>> GetAgendasPorProfessorAsync(string professor);
+        Task<AgendaDTO> GetAgendaPorIdAsync(int id);
         Task CreateAsync(AgendaDTO agendaDTO);
         Task UpdateAsync(AgendaDTO agendaDTO);
         Task RemoveAsync(int id);

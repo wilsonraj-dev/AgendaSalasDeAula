@@ -29,6 +29,12 @@ namespace Reserva.Application.Services
             return _mapper.Map<IEnumerable<AgendaDTO>>(agendas);
         }
 
+        public async Task<AgendaDTO> GetAgendaPorIdAsync(int id)
+        {
+            var agenda = await _agendaRepository.GetAgendaPorIdAsync(id);
+            return _mapper.Map<AgendaDTO>(agenda);
+        }
+
         public async Task<IEnumerable<AgendaDTO>> GetAgendasPorProfessorAsync(string professor)
         {
             var agendas = await _agendaRepository.GetAgendasPorProfessorAsync(professor);
