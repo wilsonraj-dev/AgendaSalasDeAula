@@ -16,17 +16,17 @@ namespace Reserva.Infra.Data.Repositories
 
         public async Task<IEnumerable<Agenda>> GetAgendasAsync()
         {
-            return await _context.Agendas.Include(x => x.Sala).Where(x => x.DataAgenda >= DateTime.UtcNow).ToListAsync();
+            return await _context.Agendas.Include(x => x.Sala).Where(x => x.DataAgenda >= DateTime.Today).ToListAsync();
         }
 
         public async Task<IEnumerable<Agenda>> GetAgendasPorDataAsync(DateTime dataAgenda)
         {
-            return await _context.Agendas.TemporalBetween(dataAgenda, DateTime.Now).ToListAsync();
+            return await _context.Agendas.Include(x => x.Sala).Where(x => x.DataAgenda == dataAgenda).ToListAsync();
         }
 
         public async Task<IEnumerable<Agenda>> GetAgendasPorProfessorAsync(string professor)
         {
-            return await _context.Agendas.Where(x => x.ProfessorResponsavel.Contains(professor)).ToListAsync();
+            return await _context.Agendas.Include(x => x.Sala).Where(x => x.ProfessorResponsavel.Contains(professor)).ToListAsync();
         }
 
         public async Task<Agenda> GetAgendaPorIdAsync(int id)

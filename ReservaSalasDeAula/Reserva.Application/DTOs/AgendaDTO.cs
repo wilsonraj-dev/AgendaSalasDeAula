@@ -10,7 +10,7 @@ namespace Reserva.Application.DTOs
 
         [Required]
         //[DataType(DataType.Text)]
-        //[DisplayFormat(DataFormatString = "{0: dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime DataAgenda { get; set; }
 
         [Required]

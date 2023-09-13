@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reserva.Application.DTOs;
 using Reserva.Application.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace Reserva.API.Controllers
 {
@@ -29,13 +31,15 @@ namespace Reserva.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet()]
-        [Route("agenda-por-data/{dataAgenda}")]
+        [HttpGet]
+        [Route("agenda-por-data/{dataAgenda:datetime}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<AgendaDTO>>> GetAgendasPorDataAsync(DateTime dataAgenda)
         {
-            var result = await _service.GetAgendasPorDataAsync(dataAgenda);
+            DateTime dataFormatada = new(day: dataAgenda.Month, month: dataAgenda.Day, year: dataAgenda.Year);
+
+            var result = await _service.GetAgendasPorDataAsync(dataFormatada);
             if (result == null)
             {
                 return NotFound();
