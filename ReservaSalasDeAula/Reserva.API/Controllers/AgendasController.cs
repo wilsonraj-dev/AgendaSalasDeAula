@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reserva.Application.DTOs;
 using Reserva.Application.Interfaces;
+using Reserva.Domain.Entidades;
+using Reserva.Domain.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
@@ -71,6 +73,10 @@ namespace Reserva.API.Controllers
             if (agenda == null)
             {
                 return BadRequest();
+            }
+            else if (Convert.ToDateTime(agenda.DataAgenda.ToShortDateString()) < Convert.ToDateTime(DateTime.Today.ToShortDateString()))
+            {
+                return BadRequest("A data de agendamento da sala não pode ser menor que a data atual.");
             }
 
             await _service.CreateAsync(agenda);

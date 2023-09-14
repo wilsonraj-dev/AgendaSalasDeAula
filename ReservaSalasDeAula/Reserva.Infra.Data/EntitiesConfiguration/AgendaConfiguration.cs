@@ -14,10 +14,12 @@ namespace Reserva.Infra.Data.EntitiesConfiguration
             builder.Property(x => x.Descricao).HasMaxLength(100).IsRequired();
             builder.Property(x => x.ProfessorResponsavel).HasMaxLength(50).IsRequired();
             builder.Property(x => x.QtdeHorarios).IsRequired();
-            builder.HasOne(x => x.Sala).WithOne(x => x.Agenda)
-                                       .HasForeignKey<Agenda>(x => x.SalaId)
-                                       .IsRequired()
-                                       .OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(x => x.Sala).WithMany(x => x.Agendas).HasForeignKey(x => x.SalaId).IsRequired();
+
+            //builder.HasOne(x => x.Sala).WithOne(x => x.Agenda)
+            //                           .HasForeignKey<Agenda>(x => x.SalaId)
+            //                           .IsRequired()
+            //                           .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Reserva.Domain.Entidades
 
         private void ValidateDomain(DateTime dataAgenda, string descricao, string professorResponsavel, int qtdeHorarios, int salaId)
         {
-            DomainExceptionValidation.When(new DateTime(dataAgenda.Year, dataAgenda.Month, dataAgenda.Day) < DateTime.Today, "A data de agendamento da sala não pode ser menor que a data atual.");
+            //DomainExceptionValidation.When(new DateTime(dataAgenda.Year, dataAgenda.Month, dataAgenda.Day) < DateTime.Today, "A data de agendamento da sala não pode ser menor que a data atual.");
             DomainExceptionValidation.When(string.IsNullOrEmpty(descricao), "Preencha a descrição de uso.");
             DomainExceptionValidation.When(string.IsNullOrEmpty(professorResponsavel), "Informe o professor responsável.");
             DomainExceptionValidation.When(qtdeHorarios <= 0, "Informe quantos horários serão usados.");
