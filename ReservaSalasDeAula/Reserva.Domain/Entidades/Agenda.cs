@@ -9,7 +9,7 @@ namespace Reserva.Domain.Entidades
         public string ProfessorResponsavel { get; set; } = string.Empty;
         public int QtdeHorarios { get; set; }
         public int SalaId { get; set; }
-        public virtual Sala? Sala { get; set; }
+        public Sala? Sala { get; set; }
 
         public Agenda(DateTime dataAgenda, string descricao, string professorResponsavel, int qtdeHorarios, int salaId)
         {

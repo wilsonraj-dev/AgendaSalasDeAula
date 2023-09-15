@@ -1,5 +1,4 @@
 ﻿using Reserva.Application.DTOs;
-using Reserva.Domain.Entidades;
 
 namespace Reserva.Application.Interfaces
 {

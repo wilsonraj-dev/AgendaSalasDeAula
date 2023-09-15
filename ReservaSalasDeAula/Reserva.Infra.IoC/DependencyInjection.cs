@@ -19,6 +19,8 @@ namespace Reserva.Infra.IoC
 
             services.AddScoped<IAgendaRepository, AgendaRepository>();
             services.AddScoped<IAgendaService, AgendaService>();
+            services.AddScoped<IAgendaValidacoes, AgendaValidacoes>();
+            services.AddScoped<IAgendaValidacoesRepository, AgendaValidacoesRepository>();
             services.AddScoped<ISalaRepository, SalaRepository>();
             services.AddScoped<ISalaService, SalaService>();
 

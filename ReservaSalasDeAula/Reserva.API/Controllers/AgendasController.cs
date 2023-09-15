@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Reserva.Application.DTOs;
 using Reserva.Application.Interfaces;
 using Reserva.Domain.Entidades;
@@ -13,10 +14,11 @@ namespace Reserva.API.Controllers
     public class AgendasController : ControllerBase
     {
         private readonly IAgendaService _service;
-
-        public AgendasController(IAgendaService service)
+        private readonly IAgendaValidacoes _agendaValidacoes;
+        public AgendasController(IAgendaService service, IAgendaValidacoes agendaValidacoes)
         {
             _service = service;
+            _agendaValidacoes = agendaValidacoes;
         }
 
         [HttpGet]
@@ -39,9 +41,7 @@ namespace Reserva.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<AgendaDTO>>> GetAgendasPorDataAsync(DateTime dataAgenda)
         {
-            DateTime dataFormatada = new(day: dataAgenda.Month, month: dataAgenda.Day, year: dataAgenda.Year);
-
-            var result = await _service.GetAgendasPorDataAsync(dataFormatada);
+            var result = await _service.GetAgendasPorDataAsync(dataAgenda);
             if (result == null)
             {
                 return NotFound();
@@ -78,6 +78,10 @@ namespace Reserva.API.Controllers
             {
                 return BadRequest("A data de agendamento da sala não pode ser menor que a data atual.");
             }
+            else if (_agendaValidacoes.ConsultarAgendamentosPorDataEHorarios(agenda.DataAgenda, agenda.QtdeHorarios, agenda.SalaId) > 0)
+            {
+                return BadRequest("Já existe uma agenda marcada para essa sala nessa mesma data e horário. Favor escolher um outro horário.");
+            }
 
             await _service.CreateAsync(agenda);
             return Ok();
@@ -96,6 +100,10 @@ namespace Reserva.API.Controllers
             else if (agenda.Id != id)
             {
                 return BadRequest();
+            }
+            else if (_agendaValidacoes.ConsultarAgendamentosPorDataEHorarios(agenda.DataAgenda, agenda.QtdeHorarios, agenda.SalaId) > 0)
+            {
+                return BadRequest("Já existe uma agenda marcada para essa sala nessa mesma data e horário. Favor escolher um outro horário.");
             }
 
             await _service.UpdateAsync(agenda);
