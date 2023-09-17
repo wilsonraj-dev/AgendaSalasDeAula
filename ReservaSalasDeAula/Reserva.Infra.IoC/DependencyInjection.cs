@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reserva.Application.Interfaces;
@@ -16,6 +17,10 @@ namespace Reserva.Infra.IoC
         {
             services.AddDbContext<AppDbContext>(x => x.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                                                                     x => x.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<AppDbContext>()
+                    .AddDefaultTokenProviders();
 
             services.AddScoped<IAgendaRepository, AgendaRepository>();
             services.AddScoped<IAgendaService, AgendaService>();
