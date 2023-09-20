@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Reserva.Application.DTOs;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Security.Claims;
+using System.Text;
 
 namespace Reserva.API.Controllers
 {
@@ -10,12 +15,14 @@ namespace Reserva.API.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IConfiguration _configuration;
 
-        public AutorizaController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AutorizaController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -68,9 +75,35 @@ namespace Reserva.API.Controllers
             }
         }
 
-        private object? GerarToken(UsuarioDTO usuario)
+        private UsuarioToken GerarToken(UsuarioDTO usuario)
         {
-            throw new NotImplementedException();
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Email),
+                new Claim("meuValor", "QualquerCoisa"),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var credencial = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expiracao = DateTime.UtcNow.AddHours(double.Parse(_configuration["TokenConfiguration:ExpireHours"]));
+
+            //Generate the token
+            JwtSecurityToken token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: expiracao,
+                signingCredentials: credencial
+                );
+
+            return new UsuarioToken()
+            {
+                Autenticado = true,
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expiracao = expiracao,
+                Mensagem = "Token Ok"
+            };
         }
     }
 }
