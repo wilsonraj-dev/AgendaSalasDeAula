@@ -40,7 +40,7 @@ namespace Reserva.API.Controllers
         {
             var user = new IdentityUser
             {
-                UserName = usuario.Nome,
+                UserName = usuario.Email,
                 Email = usuario.Email,
                 EmailConfirmed = true,
             };
@@ -66,7 +66,7 @@ namespace Reserva.API.Controllers
 
             if (result.Succeeded)
             {
-                return Ok();
+                return Ok(GerarToken(usuario));
             }
             else
             {
