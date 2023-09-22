@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Reserva.Application.DTOs;
+using Reserva.Domain.Account;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -13,16 +12,13 @@ namespace Reserva.API.Controllers
     [ApiController]
     public class AutorizaController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IAuthenticate _authenticate;
         private readonly IConfiguration _configuration;
 
-        public AutorizaController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
+        public AutorizaController(IConfiguration configuration, IAuthenticate authenticate)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _signInManager = signInManager;
             _configuration = configuration;
+            _authenticate = authenticate;
         }
 
         [HttpGet]
@@ -38,22 +34,17 @@ namespace Reserva.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> CriarUsario([FromBody] UsuarioDTO usuario)
         {
-            var user = new IdentityUser
-            {
-                UserName = usuario.Email,
-                Email = usuario.Email,
-                EmailConfirmed = true,
-            };
+            var result = await _authenticate.RegisterUser(usuario.Email, usuario.Password);
 
-            var result = await _userManager.CreateAsync(user, usuario.Password);
-
-            if (!result.Succeeded)
+            if (result)
             {
-                return BadRequest(result.Errors);
+                return Ok($"User {usuario.Email} was create successfully");
             }
-
-            await _signInManager.SignInAsync(user, false);
-            return Ok(GerarToken(usuario));
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt");
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpPost]
@@ -62,9 +53,9 @@ namespace Reserva.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Login([FromBody] UsuarioDTO usuario)
         {
-            var result = await _signInManager.PasswordSignInAsync(usuario.Email, usuario.Password, isPersistent: false, lockoutOnFailure: false);
+            var result = await _authenticate.Authenticate(usuario.Email, usuario.Password);
 
-            if (result.Succeeded)
+            if (result)
             {
                 return Ok(GerarToken(usuario));
             }

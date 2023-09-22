@@ -5,8 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Reserva.Application.Interfaces;
 using Reserva.Application.Mappings;
 using Reserva.Application.Services;
+using Reserva.Domain.Account;
 using Reserva.Domain.Interfaces;
 using Reserva.Infra.Data.Context;
+using Reserva.Infra.Data.Identity;
 using Reserva.Infra.Data.Repositories;
 
 namespace Reserva.Infra.IoC
@@ -18,7 +20,7 @@ namespace Reserva.Infra.IoC
             services.AddDbContext<AppDbContext>(x => x.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                                                                     x => x.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
 
@@ -28,6 +30,8 @@ namespace Reserva.Infra.IoC
             services.AddScoped<IAgendaValidacoesRepository, AgendaValidacoesRepository>();
             services.AddScoped<ISalaRepository, SalaRepository>();
             services.AddScoped<ISalaService, SalaService>();
+
+            services.AddScoped<IAuthenticate, AuthenticateService>();
 
             services.AddAutoMapper(typeof(DomainToDTOProfile));
 
