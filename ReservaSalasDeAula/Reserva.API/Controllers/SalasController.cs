@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.HttpSys;
 using Reserva.Application.DTOs;
 using Reserva.Application.Interfaces;
 
@@ -21,6 +20,7 @@ namespace Reserva.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<IEnumerable<SalaDTO>>> GetSalasAsync()
         {
             var result = await _service.GetSalasAsync();
@@ -35,6 +35,7 @@ namespace Reserva.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<SalaDTO>> CreateAsync([FromBody] SalaDTO sala)
         {
             if (sala == null)
@@ -50,6 +51,7 @@ namespace Reserva.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<SalaDTO>> UpdateAsync(int id, [FromBody] SalaDTO sala)
         {
             if (sala == null)
@@ -68,6 +70,7 @@ namespace Reserva.API.Controllers
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<SalaDTO>> RemoveAsync(int id)
         {
             var result = await _service.GetSalaByIdAsync(id);
