@@ -27,7 +27,7 @@ namespace Reserva.Infra.Data.Identity
             {
                 UserName = email,
                 Email = email,
-                EmailConfirmed = true
+                EmailConfirmed = true,
             };
 
             var result = await _userManager.CreateAsync(applicationUser, password);
